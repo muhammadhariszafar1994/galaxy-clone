@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, TextInput, Text, TouchableOpacity, StyleProp, ViewStyle, Image } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
+import { startSpeechToText } from 'react-native-voice-to-text';
 import { colors } from '../utils/Constants';
 import BuddyButtonReverse from './BuddyButtonReverse';
 import BuddyBlockButton from './BuddyBlockButton';
@@ -8,7 +9,7 @@ import BuddyBlockButton from './BuddyBlockButton';
 type BuddyCardProps = {
   style?: StyleProp<ViewStyle>;
   onMessageSend?: (data: FormValues) => void;
-  onMicPress?: () => void;
+  // onMicPress?: () => void;
   onRefineIt?: () => void;
   onReferences?: () => void;
   onEditDocument?: () => void;
@@ -26,7 +27,7 @@ type FormValues = {
 function BuddySendMessage({ 
   style,
   onMessageSend,
-  onMicPress,
+  // onMicPress,
   onRefineIt,
   onReferences,
   onEditDocument,
@@ -36,8 +37,8 @@ function BuddySendMessage({
   refineIt,
   references
 }: BuddyCardProps): React.JSX.Element {
-  
-  const { handleSubmit, control, formState: { errors }, reset, watch } = useForm<FormValues>({
+
+  const { handleSubmit, control, formState: { errors }, reset, watch, setValue } = useForm<FormValues>({
     defaultValues: {
       message: '',
     },
@@ -84,7 +85,15 @@ function BuddySendMessage({
                 )}
                 {
                   simplePanel &&
-                    <TouchableOpacity style={[styles.button, styles.buttonLG]} onPress={onMicPress}>
+                    <TouchableOpacity style={[styles.button, styles.buttonLG]} onPress={async () => {
+                      try {
+                        const audioText = await startSpeechToText();
+                        console.log('audioText:', { audioText });
+                        setValue('message', audioText);
+                      } catch (error) {
+                        console.log({ error });
+                      }
+                    }}>
                       <Image style={styles.buttonImageLG} source={require('./../assets/images/mic-2.png')} />
                     </TouchableOpacity>
                 }
