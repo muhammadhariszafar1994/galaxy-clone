@@ -82,28 +82,56 @@ const Home = () => {
   }
 
   const handleSend = async ({ message }: { message: string }) => {
-    const payload: {
-      chat_history: string[];
-      language: string;
-      query: string;
-      session_id: string;
-    } = {
-      chat_history: [],
-      language: 'en',
-      query: message,
-      session_id: sessionId,
-    };
+    // const payload: {
+    //   chat_history: string[];
+    //   language: string;
+    //   query: string;
+    //   session_id: string;
+    // } = {
+    //   chat_history: [],
+    //   language: 'en',
+    //   query: message,
+    //   session_id: sessionId,
+    // };
 
-    if(response && typeof response === 'string') {
-      payload.chat_history.push(query);
-      payload.chat_history.push(response);
+    // if(response && typeof response === 'string') {
+    //   payload.chat_history.push(query);
+    //   payload.chat_history.push(response);
+    //   setHistory(payload.chat_history);
+    // }
+
+    // dispatch(resetDocument());
+    // dispatch(resetStreamReponse());
+    // dispatch(setQuery(message));
+    // StreamResponseAPI(payload);
+
+    try {
+      // Clone the history to ensure it's a mutable array
+      const clonedHistory = [...history];
+
+      const payload = {
+        chat_history: clonedHistory,
+        language: 'en',
+        query: message,
+        session_id: sessionId,
+      };
+
+      console.log('payload', payload);
+      console.log('query', query);
+      console.log('response', response);
+
+      // Now it's safe to use push because clonedHistory is mutable
+      if(query && typeof query === 'string') payload.chat_history.push(query);
+      if(response && typeof response === 'string') payload.chat_history.push(response);
       setHistory(payload.chat_history);
-    }
 
-    dispatch(resetDocument());
-    dispatch(resetStreamReponse());
-    dispatch(setQuery(message));
-    StreamResponseAPI(payload);
+      dispatch(resetDocument());
+      dispatch(resetStreamReponse());
+      dispatch(setQuery(message));
+      StreamResponseAPI(payload);
+    } catch (error) {
+      console.error('error', error);
+    }
   }
 
   const showResponse = ({ option }: { option: string }) => {
