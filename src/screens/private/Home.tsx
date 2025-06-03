@@ -62,6 +62,7 @@ const Home = () => {
         setSessionId(`Session-1`);
       });
       
+      console.log('sessionHistory', sessionHistory);
     
   }, [sessionHistory])
 
@@ -121,8 +122,11 @@ const Home = () => {
       console.log('response', response);
 
       // Now it's safe to use push because clonedHistory is mutable
-      if(query && typeof query === 'string') payload.chat_history.push(query);
-      if(response && typeof response === 'string') payload.chat_history.push(response);
+      if(query && typeof query === 'string' && response && typeof response === 'string') {
+        payload.chat_history.push(query);
+        payload.chat_history.push(response);
+      }
+
       setHistory(payload.chat_history);
 
       dispatch(resetDocument());
