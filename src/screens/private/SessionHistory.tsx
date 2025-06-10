@@ -19,6 +19,8 @@ const SessionHistory = () => {
 
     useFocusEffect(
         useCallback(() => {
+            dispatch(resetSessions()); // it is new
+
             UserSessionsAPI();
             setSelectedOption('');
         }, [])

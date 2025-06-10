@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
   },
   field: {
     flexDirection: 'row',
-    alignItems: 'center',
+    // alignItems: 'center',
     backgroundColor: colors.midgray,
     maxWidth: screenWidth * 0.8,
     padding: 10,
@@ -57,6 +57,7 @@ const styles = StyleSheet.create({
     height: 20,
     borderRadius: 20,
     left: 10,
+    top: 10,
     position: 'absolute',
     backgroundColor: colors.purple,
     alignItems: 'center',

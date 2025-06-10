@@ -145,12 +145,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     employeeBoxLeftText: {
-        width: '50%',
+        width: '40%',
         fontSize: 15,
         paddingVertical: 10
     },
     employeeBoxRightText: {
-        width: '50%',
+        width: '60%',
         fontSize: 15,
         paddingVertical: 10
     },

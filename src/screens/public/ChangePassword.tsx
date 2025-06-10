@@ -67,7 +67,7 @@ function ChangePassword(): React.JSX.Element {
     );
 
     return (
-        <View style={styles.modalBackground}>
+        <ScrollView keyboardShouldPersistTaps="handled">
             <BuddyContainer>
                 <BuddyCard
                     cardStyle={{
@@ -80,146 +80,143 @@ function ChangePassword(): React.JSX.Element {
                     }}
                     purpleCut={true}
                 >
-                    <View 
-                        style={{ flex: 1 }} 
-                        // keyboardShouldPersistTaps="handled"
-                    >
-                        <View>
-                            <View style={styles.logoContainer}>
-                                <Image
-                                style={styles.logo}
-                                source={require('./../../assets/images/logo.png')}
-                                />
-                            </View>
-                        
-                            <View style={styles.typoContainer}>
-                                <Text style={styles.typoTitle}>Change your password</Text>
-                                <Text style={styles.typoPara}>
-                                    For your security, please update your temporary {"\n"} password.
-                                </Text>
-                            </View>
-
-                            <View style={styles.inputContainer}>
-                                <Controller
-                                    control={control}
-                                    name="password"
-                                    rules={{
-                                        required: 'Password is required',
-                                        validate: value =>
-                                            value !== watch('oldPassword') || 'New password must be different from the current password',
-                                    }}
-                                    render={({ field: { onChange, value } }) => (
-                                        <View style={styles.passwordContainer}>
-                                            <TextInput
-                                                style={styles.input}
-                                                placeholder="Password"
-                                                placeholderTextColor="#666"
-                                                secureTextEntry={!showPassword}
-                                                value={value}
-                                                onChangeText={onChange}
-                                            />
-                                            <TouchableOpacity
-                                                onPress={() => setShowPassword(!showPassword)}
-                                                style={styles.eyeIcon}
-                                            >
-                                                <Image
-                                                    source={
-                                                        showPassword
-                                                            ? require('./../../assets/images/open-eye.png')
-                                                            : require('./../../assets/images/close-eye.png')
-                                                    }
-                                                    style={styles.eyeIconImage}
-                                                />
-                                            </TouchableOpacity>
-                                        </View>
-                                    )}
-                                />
-                                {errors.password && (
-                                    <Text style={styles.errorText}>
-                                        {errors.password.message}
-                                    </Text>
-                                )}
-
-                                <Controller
-                                    control={control}
-                                    name="confirmPassword"
-                                    rules={{
-                                        required: 'Please confirm your password',
-                                        validate: value =>
-                                            value === watch('password') || 'Passwords do not match',
-                                    }}
-                                    render={({ field: { onChange, value } }) => (
-                                        <View style={styles.passwordContainer}>
-                                            <TextInput
-                                                style={styles.input}
-                                                placeholder="Confirm Password"
-                                                placeholderTextColor="#666"
-                                                secureTextEntry={!showConfirmPassword}
-                                                value={value}
-                                                onChangeText={onChange}
-                                            />
-                                            <TouchableOpacity
-                                                onPress={() => setShowConfirmPassword(!showConfirmPassword)}
-                                                style={styles.eyeIcon}
-                                            >
-                                                <Image
-                                                    source={
-                                                        showConfirmPassword
-                                                            ? require('./../../assets/images/open-eye.png')
-                                                            : require('./../../assets/images/close-eye.png')
-                                                    }
-                                                    style={styles.eyeIconImage}
-                                                />
-                                            </TouchableOpacity>
-                                        </View>
-                                    )}
-                                />
-                                {errors.confirmPassword && (
-                                    <Text style={styles.errorText}>
-                                        {errors.confirmPassword.message}
-                                    </Text>
-                                )}
-                            </View>
-
-                            {/* Remember Me and Forgot Password */}
-                            <View style={styles.rememberContainer}>
-                                <Controller
-                                    control={control}
-                                    render={({ field: { onChange, value } }) => (
-                                    <View style={styles.checkboxContainer}>
-                                        <TouchableOpacity
-                                        style={[
-                                            styles.circleCheckbox,
-                                            value ? { backgroundColor: colors.pink } : {},
-                                        ]}
-                                        onPress={() => {
-                                            const newValue = !value;
-                                            onChange(newValue); // Update the value in the form state
-                                            setRememberMe(newValue);
-                                        }}
-                                        />
-                                        <Text style={styles.rememberText}>Remember Me</Text>
-                                    </View>
-                                    )}
-                                    name="rememberMe"
-                                />
-                                <TouchableOpacity onPress={() => navigation.navigate('forgot-password')}>
-                                    <Text style={styles.forgotPassword}>Forgot Password?</Text>
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                        
-                        <View style={styles.buttonBuddyContainer}>
-                            <BuddyButton
-                                title="Submit"
-                                onPress={handleSubmit(onSubmit)}
-                                style={styles.buttonBuddy}
+                    <View>
+                        <View style={styles.logoContainer}>
+                            <Image
+                            style={styles.logo}
+                            source={require('./../../assets/images/logo.png')}
                             />
                         </View>
+                    
+                        <View style={styles.typoContainer}>
+                            <Text style={styles.typoTitle}>Change your password</Text>
+                            <Text style={styles.typoPara}>
+                                For your security, please update your temporary {"\n"} password.
+                            </Text>
+                        </View>
+
+                        <View style={styles.inputContainer}>
+                            <Controller
+                                control={control}
+                                name="password"
+                                rules={{
+                                    required: 'Password is required',
+                                    validate: value =>
+                                        value !== watch('oldPassword') || 'New password must be different from the current password',
+                                }}
+                                render={({ field: { onChange, value } }) => (
+                                    <View style={styles.passwordContainer}>
+                                        <TextInput
+                                            style={styles.input}
+                                            placeholder="Password"
+                                            placeholderTextColor="#666"
+                                            secureTextEntry={!showPassword}
+                                            value={value}
+                                            onChangeText={onChange}
+                                        />
+                                        <TouchableOpacity
+                                            onPress={() => setShowPassword(!showPassword)}
+                                            style={styles.eyeIcon}
+                                        >
+                                            <Image
+                                                source={
+                                                    showPassword
+                                                        ? require('./../../assets/images/open-eye.png')
+                                                        : require('./../../assets/images/close-eye.png')
+                                                }
+                                                style={styles.eyeIconImage}
+                                            />
+                                        </TouchableOpacity>
+                                    </View>
+                                )}
+                            />
+                            {errors.password && (
+                                <Text style={styles.errorText}>
+                                    {errors.password.message}
+                                </Text>
+                            )}
+
+                            <Controller
+                                control={control}
+                                name="confirmPassword"
+                                rules={{
+                                    required: 'Please confirm your password',
+                                    validate: value =>
+                                        value === watch('password') || 'Passwords do not match',
+                                }}
+                                render={({ field: { onChange, value } }) => (
+                                    <View style={styles.passwordContainer}>
+                                        <TextInput
+                                            style={styles.input}
+                                            placeholder="Confirm Password"
+                                            placeholderTextColor="#666"
+                                            secureTextEntry={!showConfirmPassword}
+                                            value={value}
+                                            onChangeText={onChange}
+                                        />
+                                        <TouchableOpacity
+                                            onPress={() => setShowConfirmPassword(!showConfirmPassword)}
+                                            style={styles.eyeIcon}
+                                        >
+                                            <Image
+                                                source={
+                                                    showConfirmPassword
+                                                        ? require('./../../assets/images/open-eye.png')
+                                                        : require('./../../assets/images/close-eye.png')
+                                                }
+                                                style={styles.eyeIconImage}
+                                            />
+                                        </TouchableOpacity>
+                                    </View>
+                                )}
+                            />
+                            {errors.confirmPassword && (
+                                <Text style={styles.errorText}>
+                                    {errors.confirmPassword.message}
+                                </Text>
+                            )}
+                        </View>
+
+                        {/* Remember Me and Forgot Password */}
+                        {/*
+                        <View style={styles.rememberContainer}>
+                            <Controller
+                                control={control}
+                                render={({ field: { onChange, value } }) => (
+                                <View style={styles.checkboxContainer}>
+                                    <TouchableOpacity
+                                    style={[
+                                        styles.circleCheckbox,
+                                        value ? { backgroundColor: colors.pink } : {},
+                                    ]}
+                                    onPress={() => {
+                                        const newValue = !value;
+                                        onChange(newValue); // Update the value in the form state
+                                        setRememberMe(newValue);
+                                    }}
+                                    />
+                                    <Text style={styles.rememberText}>Remember Me</Text>
+                                </View>
+                                )}
+                                name="rememberMe"
+                            />
+                            <TouchableOpacity onPress={() => navigation.navigate('forgot-password')}>
+                                <Text style={styles.forgotPassword}>Forgot Password?</Text>
+                            </TouchableOpacity>
+                        </View>
+                        */}
+                    </View>
+                    
+                    <View style={styles.buttonBuddyContainer}>
+                        <BuddyButton
+                            title="Change Your Password"
+                            onPress={handleSubmit(onSubmit)}
+                            style={styles.buttonBuddy}
+                        />
                     </View>
                 </BuddyCard>
             </BuddyContainer>
-        </View>
+        </ScrollView>
     );
 }
 
@@ -297,7 +294,8 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     buttonBuddyContainer: {
-        marginTop: 'auto',
+        // marginTop: 'auto',
+        marginVertical: 50
     },
     buttonBuddy: {
         alignSelf: 'center',

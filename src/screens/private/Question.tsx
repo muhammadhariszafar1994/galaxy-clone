@@ -36,7 +36,7 @@ const Question = ({ visible, onClose, onShowResponse }: ReferenceProps): React.J
             }}
           >
             <View style={styles.typoContainer}>
-              <Text style={styles.typoTitle}>Edit Document Type</Text>
+              <Text style={styles.typoTitle}>Select Document</Text>
               <Text style={styles.typoPara}>
                 We've found relevant information to answer your
                 question across multiple documents. To proceed,

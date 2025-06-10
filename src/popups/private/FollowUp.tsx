@@ -52,71 +52,73 @@ function FollowUp({ visible, onClose, onShowResponse }: FollowUpProps): React.JS
         }
     };
 
-    return (
-        <Modal
-            visible={visible}
-            animationType="fade"
-            transparent={true}
-            onRequestClose={onClose}
-        >
-            <View style={styles.modalBackground}>
-                <BuddyCard
-                    cardStyle={{
-                        height: screenHeight,
-                        width: screenWidth,
-                        paddingHorizontal: 25,
-                        paddingVertical: 50,
-                        borderRadius: 0
-                    }}
-                >
-                    <View style={styles.container}>
-                        <View style={styles.field}>
-                            <Text style={styles.text}>{followUp?.question}</Text>
+    return <>
+        {visible && (
+            <Modal
+                visible={visible}
+                animationType="fade"
+                transparent={true}
+                onRequestClose={onClose}
+            >
+                <View style={styles.modalBackground}>
+                    <BuddyCard
+                        cardStyle={{
+                            height: screenHeight,
+                            width: screenWidth,
+                            paddingHorizontal: 25,
+                            paddingVertical: 50,
+                            borderRadius: 0
+                        }}
+                    >
+                        <View style={styles.container}>
+                            <View style={styles.field}>
+                                <Text style={styles.text}>{followUp?.question}</Text>
+                            </View>
+
+                            <Controller
+                                control={control}
+                                name="option"
+                                rules={{ required: 'Please select an option.' }}
+                                render={({ field: { onChange, value } }) => (
+                                    <View style={styles.buddyButtonRefineContainer}>
+                                        {followUp?.options?.map((item: string, index: number) => (
+                                            <BuddyButtonRefine
+                                                key={index}
+                                                title={item}
+                                                selected={value === item}
+                                                onPress={() => onChange(item)}
+                                                buttonStyle={[
+                                                    styles.buddyButtonRefine,
+                                                    value === item && styles.buddyButtonRefineSelected
+                                                ]}
+                                            />
+                                        ))}
+                                    </View>
+                                )}
+                            />
+
+                            {errors.option && (
+                                <Text style={styles.errorText}>{errors.option.message}</Text>
+                            )}
                         </View>
 
-                        <Controller
-                            control={control}
-                            name="option"
-                            rules={{ required: 'Please select an option.' }}
-                            render={({ field: { onChange, value } }) => (
-                                <View style={styles.buddyButtonRefineContainer}>
-                                    {followUp?.options?.map((item: string, index: number) => (
-                                        <BuddyButtonRefine
-                                            key={index}
-                                            title={item}
-                                            selected={value === item}
-                                            onPress={() => onChange(item)}
-                                            buttonStyle={[
-                                                styles.buddyButtonRefine,
-                                                value === item && styles.buddyButtonRefineSelected
-                                            ]}
-                                        />
-                                    ))}
-                                </View>
-                            )}
-                        />
-
-                        {errors.option && (
-                            <Text style={styles.errorText}>{errors.option.message}</Text>
-                        )}
-                    </View>
-
-                    <View style={styles.buttonBuddyContainer}>
-                        <BuddyButton
-                            title="Show Response"
-                            onPress={handleSubmit(onSubmit)}
-                            style={styles.buttonBuddy}
-                        />
-                        <BuddyButtonReverse
-                            title="Cancel"
-                            onPress={onClose}
-                            buttonStyle={styles.buttonBuddyInverse}
-                        />
-                    </View>
-                </BuddyCard>
-            </View>
-        </Modal>
-    );
+                        <View style={styles.buttonBuddyContainer}>
+                            <BuddyButton
+                                title="Show Response"
+                                onPress={handleSubmit(onSubmit)}
+                                style={styles.buttonBuddy}
+                            />
+                            <BuddyButtonReverse
+                                title="Cancel"
+                                onPress={onClose}
+                                buttonStyle={styles.buttonBuddyInverse}
+                            />
+                        </View>
+                    </BuddyCard>
+                </View>
+            </Modal>
+        )}
+    </>;
 }
 
 const styles = StyleSheet.create({

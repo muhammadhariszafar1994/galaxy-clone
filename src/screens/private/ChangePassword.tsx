@@ -56,7 +56,7 @@ function ChangePassword(): React.JSX.Element {
     );
 
     return (
-        <View style={styles.modalBackground}>
+        <ScrollView keyboardShouldPersistTaps="handled">
             <BuddyCard
                 cardStyle={{
                     height: '100%',
@@ -66,7 +66,7 @@ function ChangePassword(): React.JSX.Element {
                     borderRadius: 0,
                 }}
             >
-                <ScrollView keyboardShouldPersistTaps="handled">
+                <View>
                     <Text style={styles.typoTitle2}>Change Password</Text>
                     <View style={styles.logoContainer}>
                         <Image
@@ -192,7 +192,7 @@ function ChangePassword(): React.JSX.Element {
                             </Text>
                         )}
                     </View>
-                </ScrollView>
+                </View>
 
                 <View style={styles.buttonBuddyContainer}>
                     <BuddyButtonReverse
@@ -202,13 +202,13 @@ function ChangePassword(): React.JSX.Element {
                     />
 
                     <BuddyButton
-                        title="Save"
+                        title="Change Your Password"
                         onPress={handleSubmit(onSubmit)}
                         style={styles.buttonBuddy}
                     />
                 </View>
             </BuddyCard>
-        </View>
+        </ScrollView>
     );
 }
 
@@ -266,7 +266,8 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     buttonBuddyContainer: {
-        marginTop: 'auto',
+        // marginTop: 'auto',
+        marginTop: 50,
     },
     buttonBuddy: {
         alignSelf: 'center',

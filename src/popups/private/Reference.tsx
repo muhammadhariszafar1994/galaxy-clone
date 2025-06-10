@@ -73,64 +73,66 @@ function Reference({ visible, onClose, onShowResponse }: ReferenceProps): React.
         dispatch(shareFeedbackAction(true));
     }
 
-    return (
-        <Modal
-            visible={visible}
-            animationType="fade"
-            transparent={true}
-            onRequestClose={onClose}
-        >
-            <View style={styles.modalBackground}>
-                <BuddyCard
-                    cardStyle={{
-                        height: screenHeight,
-                        width: screenWidth,
-                        paddingHorizontal: 25,
-                        paddingVertical: 50,
-                        borderRadius: 0
-                    }}
-                >
-                    <ScrollView style={styles.container}>
-                        <View style={styles.table}>
-                            {/* Header */}
-                            <View style={[styles.row, styles.header]}>
-                            <Text style={[styles.cell, styles.headerText]}>Document Name</Text>
-                            <Text style={[styles.cell, styles.headerText]}>Section Name</Text>
-                            <Text style={[styles.cell, styles.headerText]}>Section Number</Text>
-                            </View>
-
-                            {/* Data Rows */}
-                            {Array.isArray(references) && references.map((item, index) => (
-                                <View key={index} style={styles.row}>
-                                    <Text style={styles.cell}>{item.documentName}</Text>
-                                    <Text style={styles.cell}>{item.sectionName}</Text>
-                                    <Text style={styles.cell}>{item.sectionNumber}</Text>
+    return <>
+        {visible && (
+            <Modal
+                visible={visible}
+                animationType="fade"
+                transparent={true}
+                onRequestClose={onClose}
+            >
+                <View style={styles.modalBackground}>
+                    <BuddyCard
+                        cardStyle={{
+                            height: screenHeight,
+                            width: screenWidth,
+                            paddingHorizontal: 25,
+                            paddingVertical: 50,
+                            borderRadius: 0
+                        }}
+                    >
+                        <ScrollView style={styles.container}>
+                            <View style={styles.table}>
+                                {/* Header */}
+                                <View style={[styles.row, styles.header]}>
+                                <Text style={[styles.cell, styles.headerText]}>Document Name</Text>
+                                <Text style={[styles.cell, styles.headerText]}>Section Name</Text>
+                                <Text style={[styles.cell, styles.headerText]}>Section Number</Text>
                                 </View>
-                            ))}
-                        </View>
-                    </ScrollView>
 
-                    <View style={styles.buttonBuddyContainer}>
-                        <BuddyButtonReverse
-                            title="Email this to me"
-                            onPress={() => emailThisToMe()}
-                            buttonStyle={styles.buttonBuddyInverse}
-                        />
-                        <BuddyButtonReverse
-                            title="Share Feedback"
-                            onPress={() => shareFeedback()}
-                            buttonStyle={styles.buttonBuddyInverse}
-                        />
-                        <BuddyButton
-                            title="Ask Another Question"
-                            onPress={onClose}
-                            style={styles.buttonBuddy}
-                        />
-                    </View>
-                </BuddyCard>
-            </View>
-        </Modal>
-    );
+                                {/* Data Rows */}
+                                {Array.isArray(references) && references.map((item, index) => (
+                                    <View key={index} style={styles.row}>
+                                        <Text style={styles.cell}>{item.documentName}</Text>
+                                        <Text style={styles.cell}>{item.sectionName}</Text>
+                                        <Text style={styles.cell}>{item.sectionNumber}</Text>
+                                    </View>
+                                ))}
+                            </View>
+                        </ScrollView>
+
+                        <View style={styles.buttonBuddyContainer}>
+                            <BuddyButtonReverse
+                                title="Email this to me"
+                                onPress={() => emailThisToMe()}
+                                buttonStyle={styles.buttonBuddyInverse}
+                            />
+                            <BuddyButtonReverse
+                                title="Share Feedback"
+                                onPress={() => shareFeedback()}
+                                buttonStyle={styles.buttonBuddyInverse}
+                            />
+                            <BuddyButton
+                                title="Ask Another Question"
+                                onPress={onClose}
+                                style={styles.buttonBuddy}
+                            />
+                        </View>
+                    </BuddyCard>
+                </View>
+            </Modal>
+        )}
+    </>;
 }
 
 const styles = StyleSheet.create({

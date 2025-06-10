@@ -24,7 +24,9 @@ const BuddyAnswer = ({ style, content }: BuddyAnswerProps) => {
                 <Image style={styles.image} source={require('./../assets/images/purple-cuts-small.png')} />
               </View>
               <View style={styles.textContainer}>
-                <Text style={styles.text}>{ content }</Text>
+                <Text style={styles.text}>
+                  { content?.split("*") }
+                </Text>
               </View>
             </View>
           </View>

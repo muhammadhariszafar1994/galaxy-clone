@@ -54,17 +54,22 @@ const Home = () => {
     UserSessionsAPI()
       .then((res) => {
         console.log('UserSessionsAPI', res);
-
-        setSessionId(sessionHistory?.sessionId || getNextSessionId(res));
+        
         setHistory(sessionHistory?.chatHistory?.history || []);
+        setSessionId(sessionHistory?.sessionId || getNextSessionId(res));
       })
       .catch(() => {
         setSessionId(`Session-1`);
       });
+
+      // setHistory(sessionHistory?.chatHistory?.history || []);
+      // setSessionId(sessionHistory?.sessionId || `Session-1`);
       
+      console.log('sessionHistory?.chatHistory?.history', sessionHistory?.chatHistory?.history)
       console.log('sessionHistory', sessionHistory);
+      console.log('history', history)
     
-  }, [sessionHistory])
+  }, [sessionHistory, resetStream])
 
   const init = () => {
     dispatch(resetStream());
@@ -171,85 +176,70 @@ const Home = () => {
 
   return (
     <>
-      {/* <BuddySpeechToText /> */}
-
       <Popups />
 
-      {/* <Button title='test' onPress={() => {
-        console.log('sessionHistory', sessionHistory)
-        console.log('sessionHistory?.chatHistory?.history', sessionHistory?.chatHistory?.history)
-        
-      }}/> */}
+      <FollowUp
+        visible={modalRefineVisible}
+        onClose={() => setModalRefineVisible(false)}
+        onShowResponse={showResponse}
+      />
+
+      <Reference
+        visible={reference}
+        onClose={() => dispatch(referenceAction(false))}
+        onShowResponse={showResponse}
+      />
+
+      <EditDocument
+        visible={modalEditDocument}
+        onClose={() => setModalEditDocument(false)}
+        onShowResponse={showResponse}
+      />
 
       <View style={styles.buddyContainer}>
-        <ScrollView contentContainerStyle={styles.contentContainerStyle}>
-          <ScrollView style={styles.container}>
-            <Text>{sessionId}</Text>
-            {
-              (history && history?.length > 0) &&
-                <>
-                  {history?.map((item, key) => (
-                    <View style={styles.buddyResponseWrapper}>
-                      
-                      {
-                        key % 2 === 0 ? (
-                          <BuddyQuestion key={key} content={item} />
-                        ) : (
-                          <BuddyAnswer key={key} content={item} />
-                        )
-                      }
-                    </View>
-                  ))}
-                </>
-            }
-            {
-              ((query && typeof query === 'string') || (history && history?.length > 0)) ?
-                <>
-                  <View style={styles.buddyResponseWrapper}>
-                    {
-                      (query && typeof query === 'string') && 
-                        <BuddyQuestion content={query} />
-                    }
+        <ScrollView 
+          contentContainerStyle={styles.contentContainerStyle} 
+          keyboardShouldPersistTaps="handled"
+          style={styles.scrollView}
+        >
+          <Text style={{
+            fontWeight: 'bold'
+          }}>{sessionId}</Text>
+          {
+            (history && history?.length > 0) &&
+              <>
+                {history?.map((item, key) => (
+                  <View>
                     
                     {
-                      (response && typeof response === 'string' ) &&
-                        <BuddyAnswer content={response} />
+                      key % 2 === 0 ? (
+                        <BuddyQuestion key={key} content={item} />
+                      ) : (
+                        <BuddyAnswer key={key} content={item} />
+                      )
                     }
                   </View>
-                </> :
-              <BuddyHelloGreeting style={[styles.buddyHelloGreeting]} />  
-            }
-          </ScrollView>
+                ))}
+              </>
+          }
+          {
+            ((query && typeof query === 'string') || (history && history?.length > 0)) ?
+              <>
+                <View style={styles.buddyResponseWrapper}>
+                  {
+                    (query && typeof query === 'string') && 
+                      <BuddyQuestion content={query} />
+                  }
+                  
+                  {
+                    (response && typeof response === 'string' ) &&
+                      <BuddyAnswer content={response} />
+                  }
+                </View>
+              </> :
+            <BuddyHelloGreeting style={[styles.buddyHelloGreeting]} />  
+          }
         </ScrollView>
-
-        {/* <ConfirmSignOut
-          visible={confirmSignOutVisibility}
-          onClose={() => dispatch(confirmSignOutVisibilityAction(false))}
-        /> */}
-        
-        {/* <Button onPress={() => navigation.navigate('change-password-successfully')} title='Test'/> */}
-
-        {/* <Button onPress={() => setModalRefineVisible(true)} title='Test'/> */}
-
-        <FollowUp
-          visible={modalRefineVisible}
-          onClose={() => setModalRefineVisible(false)}
-          onShowResponse={showResponse}
-        />
-
-        <Reference
-          // visible={modalReferenceVisible}
-          // onClose={() => setModalReferenceVisible(false)}
-          visible={reference}
-          onClose={() => dispatch(referenceAction(false))}
-          onShowResponse={showResponse}
-        />
-
-        <EditDocument
-          visible={modalEditDocument}
-          onClose={() => setModalEditDocument(false)}
-          onShowResponse={showResponse}
-        />
         
         <BuddySendMessage 
           style={[styles.buddySendMessage]} 
@@ -263,41 +253,9 @@ const Home = () => {
           editDocument={(documents?.length > 0)}
           onEditDocument={() => setModalEditDocument(true)}
         />
-        
-        {/* 
-        <ThankYouModal
-          visible={modalVisible}
-          onClose={() => setModalVisible(false)}
-          onChangeLanguage={() => navigation.navigate('preferred-language')}
-        /> */}
-
-        {/* <ConfirmSignOut
-          visible={modalVisible}
-          onClose={() => setModalVisible(false)}
-          onChangeLanguage={() => navigation.navigate('preferred-language')}
-        /> */}
-
-        
-
-        {/* <ReportToManagement
-          visible={modalVisible}
-          onClose={() => setModalVisible(false)}
-          onChangeLanguage={() => navigation.navigate('preferred-language')}
-        /> */}
-        
-        {/* <Profile
-          visible={modalVisible}
-          onClose={() => setModalVisible(false)}
-          onChangeLanguage={() => navigation.navigate('preferred-language')}
-        /> */}
-
-        {/* <ChangePassword
-          visible={modalVisible}
-          onClose={() => setModalVisible(false)}
-          onChangeLanguage={() => navigation.navigate('preferred-language')}
-        /> */}
       </View>
-     
+
+      
     </>
   );
 };
@@ -308,20 +266,22 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   container: {
-    // paddingHorizontal: 15
+    
+  },
+  scrollView: {
+    flex: 1,
   },
   contentContainerStyle: {
-    flex: 1,
-    paddingHorizontal: 15
+    padding: 15
   },
   buddyHelloGreeting: {
     marginTop: 30,
   },
   buddyResponseWrapper: {
-    marginBottom: 5
+   
   },
   buddySendMessage: {
-    marginTop: 'auto',
+    // marginTop: 'auto'
   }
 });
 

@@ -44,73 +44,75 @@ const EditDocument = ({ visible, onClose, onShowResponse }: ReferenceProps): Rea
     }
   };
 
-  return (
-    <Modal
-      visible={visible}
-      animationType="fade"
-      transparent={true}
-      onRequestClose={onClose}
-    >
-      <View style={styles.buddyContainer}>
-        <ScrollView keyboardShouldPersistTaps="handled">
-          <BuddyCard
-            cardStyle={{
-              height: '100%',
-              width: screenWidth,
-              paddingHorizontal: 25,
-              paddingVertical: 50,
-              borderRadius: 0,
-            }}
-          >
-            <View style={styles.typoContainer}>
-              <Text style={styles.typoTitle}>Edit Document Type</Text>
-              <Text style={styles.typoPara}>
-                We've found relevant information to answer your question across multiple documents.
-                To proceed, please select one of the following documents below to generate your response.
-              </Text>
-            </View>
+  return <>
+    {visible && (
+      <Modal
+        visible={visible}
+        animationType="fade"
+        transparent={true}
+        onRequestClose={onClose}
+      >
+        <View style={styles.buddyContainer}>
+          <ScrollView keyboardShouldPersistTaps="handled">
+            <BuddyCard
+              cardStyle={{
+                height: '100%',
+                width: screenWidth,
+                paddingHorizontal: 25,
+                paddingVertical: 50,
+                borderRadius: 0,
+              }}
+            >
+              <View style={styles.typoContainer}>
+                <Text style={styles.typoTitle}>Select Document</Text>
+                <Text style={styles.typoPara}>
+                  We've found relevant information to answer your question across multiple documents.
+                  To proceed, please select one of the following documents below to generate your response.
+                </Text>
+              </View>
 
-            <Controller
-              control={control}
-              name="option"
-              rules={{ required: 'Please select a document.' }}
-              render={({ field: { onChange, value } }) => (
-                <View style={styles.buddyResponse}>
-                  {documents.map((document: any) => (
-                    <BuddyOption
-                      key={document.id}
-                      label={document?.documentTitle}
-                      company={document?.company?.companyName}
-                      department={document?.department?.departmentName}
-                      brief={document?.documentBrief}
-                      selected={value === document.documentTitle}
-                      onPress={() => onChange(document.documentTitle)}
-                    />
-                  ))}
-                </View>
+              <Controller
+                control={control}
+                name="option"
+                rules={{ required: 'Please select a document.' }}
+                render={({ field: { onChange, value } }) => (
+                  <View style={styles.buddyResponse}>
+                    {documents.map((document: any) => (
+                      <BuddyOption
+                        key={document.id}
+                        label={document?.documentTitle}
+                        company={document?.company?.companyName}
+                        department={document?.department?.departmentName}
+                        brief={document?.documentBrief}
+                        selected={value === document.documentTitle}
+                        onPress={() => onChange(document.documentTitle)}
+                      />
+                    ))}
+                  </View>
+                )}
+              />
+
+              {errors.option && (
+                <Text style={styles.errorText}>{errors.option.message}</Text>
               )}
-            />
-
-            {errors.option && (
-              <Text style={styles.errorText}>{errors.option.message}</Text>
-            )}
-          </BuddyCard>
-        </ScrollView>
-        <View style={styles.buttonBuddyContainer}>
-            <BuddyButton
-              title="Show Response"
-              onPress={handleSubmit(onSubmit)}
-              style={styles.buttonBuddy}
-            />
-            <BuddyButtonReverse
-                title="Close"
-                onPress={onClose}
-                buttonStyle={styles.buttonBuddyInverse}
-            />
+            </BuddyCard>
+          </ScrollView>
+          <View style={styles.buttonBuddyContainer}>
+              <BuddyButton
+                title="Show Response"
+                onPress={handleSubmit(onSubmit)}
+                style={styles.buttonBuddy}
+              />
+              <BuddyButtonReverse
+                  title="Close"
+                  onPress={onClose}
+                  buttonStyle={styles.buttonBuddyInverse}
+              />
+          </View>
         </View>
-      </View>
-    </Modal>
-  );
+      </Modal>
+    )}
+  </>;
 };
 
 const styles = StyleSheet.create({

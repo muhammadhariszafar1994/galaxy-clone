@@ -132,14 +132,14 @@ function BuddySendMessage({
                       {
                         editDocument && 
                           <BuddyButtonReverse 
-                            title='Edit Document' 
+                            title='Select Document' 
                             onPress={onEditDocument ?? (() => {})}
                             buttonStyle={styles.buddyButtonReverse}
                             textStyle={styles.buddyButtonReverseText}
                           />
                       } 
                     </View>
-                    <View style={styles.rightbox}>
+                    {/* <View style={styles.rightbox}> */}
                         {/* <TouchableOpacity style={[
                             styles.button,styles.buttonSM
                         ]} onPress={handleSubmit(onSubmit)}>
@@ -154,7 +154,7 @@ function BuddySendMessage({
                         <TouchableOpacity style={[styles.button, styles.buttonSM]} onPress={handleSubmit(onSubmit)}>
                             <Image style={styles.buttonImage} source={require('./../assets/images/send-message.png')} />
                         </TouchableOpacity> */}
-                    </View>
+                    {/* </View> */}
                 </View>
             }
 
@@ -283,10 +283,13 @@ const styles = StyleSheet.create({
   },
   buddyButtonReverse: {
     height: 40,
-    paddingHorizontal: 6
+    width: '33.33%',
+    paddingHorizontal: 6,
+    
   },
   buddyButtonReverseText: {
     fontSize: 12,
+    textAlign: 'center'
   }
 });
 
