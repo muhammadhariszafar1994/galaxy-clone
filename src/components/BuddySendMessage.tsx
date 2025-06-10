@@ -104,13 +104,13 @@ function BuddySendMessage({
             )}
 
             {
-              operationalPanel &&
+              // operationalPanel &&
                 <View style={[styles.fieldset, {
                     marginTop: 15
                 }]}>
                     <View style={styles.leftbox}>
                       {
-                        references &&
+                        // references &&
                           <BuddyButtonReverse 
                             title='Show Reference' 
                             onPress={onReferences ?? (() => {})}
@@ -120,7 +120,7 @@ function BuddySendMessage({
                       }
                       
                       {
-                        refineIt && 
+                        // refineIt && 
                           <BuddyButtonReverse 
                             title='Refine it' 
                             onPress={onRefineIt ?? (() => {})}
@@ -130,7 +130,7 @@ function BuddySendMessage({
                       }
 
                       {
-                        editDocument && 
+                        // editDocument && 
                           <BuddyButtonReverse 
                             title='Select Document' 
                             onPress={onEditDocument ?? (() => {})}
@@ -274,7 +274,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     flex: 1,
-    gap: 5
+    gap: '2%'
   },
   rightbox: {
     flexDirection: 'row',
@@ -283,8 +283,8 @@ const styles = StyleSheet.create({
   },
   buddyButtonReverse: {
     height: 40,
-    width: '33.33%',
-    paddingHorizontal: 6,
+    width: '32%',
+    // paddingHorizontal: 6,
     
   },
   buddyButtonReverseText: {
