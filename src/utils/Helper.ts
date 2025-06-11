@@ -131,21 +131,44 @@ export const toSnakeCase = (str: string) => {
     .replace(/\s+/g, '_');
 };
 
-export const getNextSessionId = (sessions: { sessionId: string }[]): string => {
+// export const getNextSessionId = (sessions: { sessionId: string | number | null | undefined }[]): string => {
+//   if (sessions.length === 0) return "Session-1";
+
+//   let maxNumber = 0;
+
+//   sessions.forEach((session) => {
+//     const rawId = session?.sessionId;
+
+//     // Safely convert to string
+//     const sessionId = String(rawId ?? '');
+
+//     // Log for debugging
+//     console.log('sessionId (string)', sessionId);
+
+//     const match = sessionId.match(/Session-(\d+)/);
+//     if (match) {
+//       const num = parseInt(match[1], 10);
+//       if (num > maxNumber) {
+//         maxNumber = num;
+//       }
+//     }
+//   });
+
+//   return `Session-${maxNumber + 1}`;
+// };
+
+export const getNextSessionId = (
+  sessions: { sessionId: string | number | null | undefined }[]
+): string => {
   if (sessions.length === 0) return "Session-1";
 
-  let maxNumber = 0;
+  const rawId = sessions[0]?.sessionId;
+  const sessionId = String(rawId ?? '');
 
-  sessions.forEach(session => {
-    const match = session.sessionId.match(/Session-(\d+)/);
-    if (match) {
-      const num = parseInt(match[1], 10);
-      if (num > maxNumber) {
-        maxNumber = num;
-      }
-    }
-  });
+  console.log('First sessionId (string)', sessionId);
 
-  return `Session-${maxNumber + 1}`;
+  const match = sessionId.match(/Session-(\d+)/);
+  const nextNumber = match ? parseInt(match[1], 10) + 1 : 1;
+
+  return `Session-${nextNumber}`;
 };
-

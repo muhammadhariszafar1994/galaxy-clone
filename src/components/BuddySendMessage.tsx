@@ -110,7 +110,7 @@ function BuddySendMessage({
                 }]}>
                     <View style={styles.leftbox}>
                       {
-                        // references &&
+                        references &&
                           <BuddyButtonReverse 
                             title='Show Reference' 
                             onPress={onReferences ?? (() => {})}
@@ -120,7 +120,7 @@ function BuddySendMessage({
                       }
                       
                       {
-                        // refineIt && 
+                        refineIt && 
                           <BuddyButtonReverse 
                             title='Refine it' 
                             onPress={onRefineIt ?? (() => {})}
@@ -130,7 +130,7 @@ function BuddySendMessage({
                       }
 
                       {
-                        // editDocument && 
+                        editDocument && 
                           <BuddyButtonReverse 
                             title='Select Document' 
                             onPress={onEditDocument ?? (() => {})}

@@ -32,10 +32,6 @@ import { setLoading } from './src/store/reducers/auth';
 enableScreens();
 
 function App(): React.JSX.Element {
-  // const backgroundStyle = {
-  //   backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  // };
-
   useEffect(() => {
     store.dispatch(setLoading(false));
   }, [])
@@ -48,10 +44,18 @@ function App(): React.JSX.Element {
               style={{flex: 1}}
               behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
             >
-              <StatusBar barStyle={'dark-content'} backgroundColor={'#ffffff'} />
-              {/* <BuddyFullPageLoading text="Please wait..." /> */}
-              <Navigation />
-              <FlashMessage position="top" />
+              
+              {
+                store.getState().auth.loading ?
+                  <BuddyFullPageLoading />
+                :
+                  <>
+                    <StatusBar barStyle={'dark-content'} backgroundColor={'#ffffff'} />
+                    <Navigation />
+                    <FlashMessage position="top" />
+                  </>
+              }
+              
             </KeyboardAvoidingView>
           </SafeAreaView>
       </Provider>

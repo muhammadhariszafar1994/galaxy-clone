@@ -48,44 +48,58 @@ const Home = () => {
 
   useEffect(() => {
     init();
-  }, [])
-
-  useEffect(() => {
-    UserSessionsAPI()
-      .then((res) => {
-        console.log('UserSessionsAPI', res);
-        
-        setHistory(sessionHistory?.chatHistory?.history || []);
-        setSessionId(sessionHistory?.sessionId || getNextSessionId(res));
-      })
-      .catch(() => {
-        setSessionId(`Session-1`);
-      });
-
-      // setHistory(sessionHistory?.chatHistory?.history || []);
-      // setSessionId(sessionHistory?.sessionId || `Session-1`);
-      
-      console.log('sessionHistory?.chatHistory?.history', sessionHistory?.chatHistory?.history)
-      console.log('sessionHistory', sessionHistory);
-      console.log('history', history)
-    
-  }, [sessionHistory, resetStream])
-
-  const init = () => {
+  }, [resetStream]) // make sure resetStream is available
+  
+  const init = async () => {
     dispatch(resetStream());
     dispatch(resetSessionHistory());
     dispatch(setLoading(false));
     setHistory([]);
+  
+    try {
+      const res = await UserSessionsAPI();
+      console.log('init', res);
+  
+      const nextSessionId = getNextSessionId(res);
+      setSessionId(nextSessionId);
+  
+      // Instead of relying on sessionHistory, use response directly
+      const history = res?.chatHistory?.history || [];
+      setHistory(history);
+  
+    } catch (err) {
+      console.error(err);
+      setSessionId('Session-1');
+    }
+  };
+  
 
+  useEffect(() => {
+    if (!sessionHistory) return;
+
+    dispatch(setQuery(null));
+    dispatch(resetStreamReponse());
+  
     UserSessionsAPI()
       .then((res) => {
-        console.log('init', res);
-        setSessionId(getNextSessionId(res));
+        console.log('UserSessionsAPI', res);
+  
+        setHistory(sessionHistory?.chatHistory?.history || []);
+        setSessionId(sessionHistory?.sessionId || getNextSessionId(res));
       })
-      .catch(() => {
-        setSessionId(`Session-1`);
+      .catch((err) => {
+        console.error(err);
+        setSessionId('Session-1');
       });
-  }
+  
+    console.log('sessionHistory?.chatHistory?.history', sessionHistory?.chatHistory?.history);
+    console.log('sessionHistory', sessionHistory);
+    console.log('history', history);
+  
+  }, [sessionHistory, resetStream]);
+  
+
+  
 
   const handleSend = async ({ message }: { message: string }) => {
     // const payload: {
