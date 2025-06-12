@@ -43,13 +43,9 @@ const Home = () => {
   const [history, setHistory] = useState<string[]>([]);
   
   const [modalRefineVisible, setModalRefineVisible] = useState(false);
-  // const [modalReferenceVisible, setModalReferenceVisible] = useState(false);
   const [modalEditDocument, setModalEditDocument] = useState(false);
+  // const [modalReferenceVisible, setModalReferenceVisible] = useState(false);
 
-  useEffect(() => {
-    init();
-  }, [resetStream]) // make sure resetStream is available
-  
   const init = async () => {
     dispatch(resetStream());
     dispatch(resetSessionHistory());
@@ -72,34 +68,6 @@ const Home = () => {
       setSessionId('Session-1');
     }
   };
-  
-
-  useEffect(() => {
-    if (!sessionHistory) return;
-
-    dispatch(setQuery(null));
-    dispatch(resetStreamReponse());
-  
-    UserSessionsAPI()
-      .then((res) => {
-        console.log('UserSessionsAPI', res);
-  
-        setHistory(sessionHistory?.chatHistory?.history || []);
-        setSessionId(sessionHistory?.sessionId || getNextSessionId(res));
-      })
-      .catch((err) => {
-        console.error(err);
-        setSessionId('Session-1');
-      });
-  
-    console.log('sessionHistory?.chatHistory?.history', sessionHistory?.chatHistory?.history);
-    console.log('sessionHistory', sessionHistory);
-    console.log('history', history);
-  
-  }, [sessionHistory, resetStream]);
-  
-
-  
 
   const handleSend = async ({ message }: { message: string }) => {
     // const payload: {
@@ -187,6 +155,37 @@ const Home = () => {
     }
   };
 
+  useEffect(() => {
+    init();
+  }, [resetStream]) // make sure resetStream is available
+
+  useEffect(() => {
+    if (!sessionHistory) return;
+
+    dispatch(setQuery(null));
+    dispatch(resetStreamReponse());
+  
+    UserSessionsAPI()
+      .then((res) => {
+        console.log('UserSessionsAPI', res);
+  
+        setHistory(sessionHistory?.chatHistory?.history || []);
+        setSessionId(sessionHistory?.sessionId || getNextSessionId(res));
+      })
+      .catch((err) => {
+        console.error(err);
+        setSessionId('Session-1');
+      });
+  
+    console.log('sessionHistory?.chatHistory?.history', sessionHistory?.chatHistory?.history);
+    console.log('sessionHistory', sessionHistory);
+    console.log('history', history);
+  
+  }, [sessionHistory, resetStream]);
+  
+  useEffect(() => {
+    if(documents?.length > 0) setModalEditDocument(true);
+  }, [documents]);
 
   return (
     <>

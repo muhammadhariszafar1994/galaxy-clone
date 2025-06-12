@@ -28,11 +28,9 @@ const PrivateNavigation = () => {
 
   const initialRoute = userDetails && userDetails?.isFirstLogin ? 'change-password' : 'preferred-language';
   
-  const plusPress = () => {
-    
+  const plusPress = () => {    
     dispatch(resetStream());
     dispatch(resetSessionHistory());
-
 
     navigation.navigate('home');
   }
