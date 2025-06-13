@@ -2,7 +2,8 @@ import axios from 'axios';
 import { routes } from './Constants';
 import { store } from '../store/store';
 import { showError, showSuccess } from './Helper';
-import { setLoading } from '../store/reducers/auth';
+import { setLoader } from '../store/reducers/auth';
+import { Alert } from 'react-native';
 
 const API = axios.create({baseURL: routes.baseUrl});
 
@@ -14,11 +15,7 @@ API.interceptors.request.use(config => {
     config.headers['Authorization'] = `Bearer ${token}`;
     config.headers['token'] = token;
     
-    store.dispatch(setLoading(true));
-
-    if (config.method === 'get') {
-
-    }
+    if (config.method === 'get') store.dispatch(setLoader(true));
   
    return config;
 });
@@ -27,7 +24,7 @@ API.interceptors.request.use(config => {
 // Add a response interceptor
 API.interceptors.response.use(
     (response) => {
-        store.dispatch(setLoading(false));
+        store.dispatch(setLoader(false));
 
         let toast = response.config.toast;
         let message = response?.data?.message;
@@ -38,7 +35,7 @@ API.interceptors.response.use(
         return response;
     },
     (error) => {
-        store.dispatch(setLoading(false));
+        store.dispatch(setLoader(false));
 
         const errResponse = error.response;
             

@@ -6,7 +6,7 @@ import { resetDocument, setDocument, setStream } from '../../reducers/stream';
 import { store } from '../../store';
 
 export const StreamResponseAPI = async (payload) => {
-  try {
+  return new Promise((resolve, reject) => {
     API.post(routes.streamResponse, payload)
     .then(e => {
       const data = e?.data;
@@ -26,16 +26,17 @@ export const StreamResponseAPI = async (payload) => {
       
       console.log('_responseMapping', _responseMapping)
       store.dispatch(setStream(_responseMapping));
+
+      resolve(e);
     })
     .catch(err => {
       console.log('StreamResponseAPI err', err);
+      reject(e);
     })
     .finally(() => {
       
     });
-  } catch (error) {
-    console.error(error)
-  }
+  })
 };
 
 export const GetDocumentAPI = async ({

@@ -7,9 +7,10 @@ import { ActivityIndicator, View, Text } from 'react-native';
 
 import PublicNavigation from './public';
 import PrivateNavigation from './private';
+import { store } from '../store/store';
 
 const Navigation = () => {
-  const { token } = useSelector(state => state.auth);
+  const { token, loading } = useSelector(state => state.auth);
   const [isConnected, setIsConnected] = useState(null);
   // const [loading, setLoading] = useState(true);
 
@@ -18,14 +19,6 @@ const Navigation = () => {
   //     setLoading(false)
   //   },1000)
   // }, [])
-
-  // if (loading) {
-  //   return (
-  //     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-  //       <ActivityIndicator size="large" />
-  //     </View>
-  //   );
-  // }
 
   useEffect(() => {
     const unsubscribe = NetInfo.addEventListener(state => {

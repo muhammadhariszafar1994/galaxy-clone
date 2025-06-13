@@ -1,6 +1,6 @@
 // Home.js
-import React, { useCallback, useEffect, useState } from 'react';
-import { View, Text, ScrollView, StyleSheet, Button, Alert } from 'react-native';
+import React, { useRef, useEffect, useState } from 'react';
+import { View, Text, ScrollView, StyleSheet, Button, Alert, ActivityIndicator } from 'react-native';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import BuddyHelloGreeting from '../../components/BuddyHelloGreeting';
 import { colors } from '../../utils/Constants';
@@ -44,7 +44,11 @@ const Home = () => {
   
   const [modalRefineVisible, setModalRefineVisible] = useState(false);
   const [modalEditDocument, setModalEditDocument] = useState(false);
+  const [loader, setLoader] = useState(false);
+
   // const [modalReferenceVisible, setModalReferenceVisible] = useState(false);
+
+  const scrollViewRef = useRef<ScrollView>(null);
 
   const init = async () => {
     dispatch(resetStream());
@@ -93,6 +97,8 @@ const Home = () => {
     // dispatch(setQuery(message));
     // StreamResponseAPI(payload);
 
+    setLoader(true);
+    
     try {
       // Clone the history to ensure it's a mutable array
       const clonedHistory = [...history];
@@ -119,13 +125,15 @@ const Home = () => {
       dispatch(resetDocument());
       dispatch(resetStreamReponse());
       dispatch(setQuery(message));
-      StreamResponseAPI(payload);
+      StreamResponseAPI(payload).finally(() => setLoader(false));
     } catch (error) {
       console.error('error', error);
     }
   }
 
   const showResponse = ({ option }: { option: string }) => {
+    setLoader(true);
+
     try {
       // Clone the history to ensure it's a mutable array
       const clonedHistory = [...history];
@@ -149,7 +157,7 @@ const Home = () => {
       dispatch(resetDocument());
       dispatch(resetStreamReponse());
       dispatch(setQuery(option));
-      StreamResponseAPI(payload);
+      StreamResponseAPI(payload).finally(() => setLoader(false));
     } catch (error) {
       console.error('error', error);
     }
@@ -187,6 +195,12 @@ const Home = () => {
     if(documents?.length > 0) setModalEditDocument(true);
   }, [documents]);
 
+  useEffect(() => {
+    if (scrollViewRef.current) {
+      scrollViewRef.current.scrollToEnd({ animated: true });
+    }
+  }, [history, response]);
+
   return (
     <>
       <Popups />
@@ -214,6 +228,7 @@ const Home = () => {
           contentContainerStyle={styles.contentContainerStyle} 
           keyboardShouldPersistTaps="handled"
           style={styles.scrollView}
+          ref={scrollViewRef}
         >
           <Text style={{
             fontWeight: 'bold'
@@ -243,11 +258,13 @@ const Home = () => {
                     (query && typeof query === 'string') && 
                       <BuddyQuestion content={query} />
                   }
-                  
+
                   {
                     (response && typeof response === 'string' ) &&
                       <BuddyAnswer content={response} />
                   }
+
+                  { loader && <ActivityIndicator size="large" /> }
                 </View>
               </> :
             <BuddyHelloGreeting style={[styles.buddyHelloGreeting]} />  
@@ -289,12 +306,6 @@ const styles = StyleSheet.create({
   },
   buddyHelloGreeting: {
     marginTop: 30,
-  },
-  buddyResponseWrapper: {
-   
-  },
-  buddySendMessage: {
-    // marginTop: 'auto'
   }
 });
 

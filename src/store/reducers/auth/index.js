@@ -6,6 +6,7 @@ const initialState = {
   token: null,
   authId: null,
   loading: false,
+  loader: false,
 };
 
 const authSlice = createSlice({
@@ -22,9 +23,12 @@ const authSlice = createSlice({
     setLoading: (state, action) => {
       state.loading = action.payload;
     },
+    setLoader: (state, action) => {
+      state.loader = action.payload;
+    },
     logOut: () => initialState,
   },
 });
 
-export const { setUserDetails, setToken, setLoading, logOut } = authSlice.actions;
+export const { setUserDetails, setToken, setLoading, setLoader, logOut } = authSlice.actions;
 export default authSlice.reducer;
