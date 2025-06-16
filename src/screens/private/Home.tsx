@@ -4,7 +4,7 @@ import { View, Text, ScrollView, StyleSheet, Button, Alert, ActivityIndicator } 
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import BuddyHelloGreeting from '../../components/BuddyHelloGreeting';
 import { colors } from '../../utils/Constants';
-import BuddySendMessage from '../../components/BuddySendMessage';
+import BuddySendMessage, { BuddySendMessageRef } from '../../components/BuddySendMessage';
 import { GetDocumentAPI, StreamResponseAPI } from '../../store/actions/stream';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetDocument, resetStream, resetStreamReponse, setQuery } from '../../store/reducers/stream';
@@ -49,12 +49,14 @@ const Home = () => {
   // const [modalReferenceVisible, setModalReferenceVisible] = useState(false);
 
   const scrollViewRef = useRef<ScrollView>(null);
+  const buddySendMessageRef = useRef<BuddySendMessageRef>(null);
 
   const init = async () => {
     dispatch(resetStream());
     dispatch(resetSessionHistory());
     dispatch(setLoading(false));
     setHistory([]);
+    handleReset();
   
     try {
       const res = await UserSessionsAPI();
@@ -163,6 +165,11 @@ const Home = () => {
     }
   };
 
+  const handleReset = () => {
+    console.log('buddySendMessageRef.current', buddySendMessageRef.current)
+    buddySendMessageRef.current?.reset();
+  };
+
   useEffect(() => {
     init();
   }, [resetStream]) // make sure resetStream is available
@@ -189,6 +196,7 @@ const Home = () => {
     console.log('sessionHistory', sessionHistory);
     console.log('history', history);
   
+    handleReset();
   }, [sessionHistory, resetStream]);
   
   useEffect(() => {
@@ -272,7 +280,7 @@ const Home = () => {
         </ScrollView>
         
         <BuddySendMessage 
-          style={[styles.buddySendMessage]} 
+          // style={[styles.buddySendMessage]} 
           onMessageSend={handleSend}
           simplePanel={true}
           operationalPanel={(response && typeof response === 'string' )}
@@ -282,6 +290,7 @@ const Home = () => {
           onReferences={() => dispatch(referenceAction(true))}
           editDocument={(documents?.length > 0)}
           onEditDocument={() => setModalEditDocument(true)}
+          ref={buddySendMessageRef}
         />
       </View>
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef, useImperativeHandle } from 'react';
 import { StyleSheet, View, TextInput, Text, TouchableOpacity, StyleProp, ViewStyle, Image } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { startSpeechToText } from 'react-native-voice-to-text';
@@ -24,10 +24,13 @@ type FormValues = {
   message: string;
 };
 
-function BuddySendMessage({ 
+export type BuddySendMessageRef = {
+  reset: () => void;
+};
+
+const BuddySendMessage = forwardRef<BuddySendMessageRef, BuddyCardProps>(({
   style,
   onMessageSend,
-  // onMicPress,
   onRefineIt,
   onReferences,
   onEditDocument,
@@ -36,7 +39,7 @@ function BuddySendMessage({
   operationalPanel,
   refineIt,
   references
-}: BuddyCardProps): React.JSX.Element {
+}, ref) => {
 
   const { handleSubmit, control, formState: { errors }, reset, watch, setValue } = useForm<FormValues>({
     defaultValues: {
@@ -50,6 +53,10 @@ function BuddySendMessage({
     onMessageSend?.(data);
     reset();
   };
+  
+  useImperativeHandle(ref, () => ({
+    reset: () => reset()
+  }));
 
   return (
     <View style={[styles.container, style]}>
@@ -208,7 +215,7 @@ function BuddySendMessage({
         </View>
     </View>
   );
-}
+});
 
 const styles = StyleSheet.create({
   container: {

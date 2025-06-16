@@ -34,7 +34,7 @@ function Welcome(): React.JSX.Element {
     const navigation = useNavigation();
 
     return <>
-        <ScrollView keyboardShouldPersistTaps="handled">
+        {/* <ScrollView keyboardShouldPersistTaps="handled"> */}
             <BuddyContainer>
                 <View style={
                     styles.logoContainer
@@ -50,6 +50,7 @@ function Welcome(): React.JSX.Element {
                         cardStyle={{
                             height: screenHeight,
                             width: screenWidth * 0.75,
+                            paddingHorizontal: 25
                         }}
                     >
                         <View style={styles.titleContainer}>
@@ -75,7 +76,7 @@ function Welcome(): React.JSX.Element {
                     </BuddyCard>
                 </View>
             </BuddyContainer>
-        </ScrollView>
+        {/* </ScrollView> */}
     </>;
 }
 
@@ -110,7 +111,8 @@ const styles = StyleSheet.create({
     },
     buttonBuddy: {
         alignSelf: 'center',
-        width: screenWidth * 0.85,
+        // width: screenWidth * 0.85,
+        width: '100%',
         marginVertical: 50
     },
     langBuddy: {

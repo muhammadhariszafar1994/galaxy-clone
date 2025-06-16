@@ -20,7 +20,7 @@ function PasswordUpdatedSuccessfully(): React.JSX.Element {
     const navigation = useNavigation();
 
     return (
-        <ScrollView keyboardShouldPersistTaps="handled">
+        // <ScrollView keyboardShouldPersistTaps="handled">
             <BuddyContainer>
                 <View style={styles.cardContainer}>
                     <BuddyCard
@@ -52,7 +52,7 @@ function PasswordUpdatedSuccessfully(): React.JSX.Element {
                     </BuddyCard>
                 </View>
             </BuddyContainer>
-        </ScrollView>
+        // </ScrollView>
     );
 }
 

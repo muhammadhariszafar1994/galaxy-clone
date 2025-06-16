@@ -53,7 +53,7 @@ function Login(): React.JSX.Element {
   };
 
   return (
-    <ScrollView keyboardShouldPersistTaps="handled">
+    // <ScrollView keyboardShouldPersistTaps="handled">
       <BuddyContainer>
         <View style={styles.cardContainer}>
           <BuddyCard
@@ -174,7 +174,7 @@ function Login(): React.JSX.Element {
           </BuddyCard>
         </View>
       </BuddyContainer>
-    </ScrollView>
+    // </ScrollView>
   );
 }
 

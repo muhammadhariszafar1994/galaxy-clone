@@ -67,7 +67,7 @@ function ChangePassword(): React.JSX.Element {
     );
 
     return (
-        <ScrollView keyboardShouldPersistTaps="handled">
+        // <ScrollView keyboardShouldPersistTaps="handled">
             <BuddyContainer>
                 <BuddyCard
                     cardStyle={{
@@ -216,7 +216,7 @@ function ChangePassword(): React.JSX.Element {
                     </View>
                 </BuddyCard>
             </BuddyContainer>
-        </ScrollView>
+        // </ScrollView>
     );
 }
 
