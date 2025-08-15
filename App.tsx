@@ -1,20 +1,19 @@
 import React from 'react';
 import { KeyboardAvoidingView, Platform, SafeAreaView } from 'react-native';
-import AppNavigation from './Src/Navigation/AppNavigation'; // correct path lagao
+import { NavigationContainer } from '@react-navigation/native';
+import AppNavigation from './Src/Navigation/AppNavigation';
 
-function App() {
+export default function App() {
   return (
-    <>
-      <SafeAreaView style={{ flex: 1 }}>
-        <KeyboardAvoidingView
-          style={{ flex: 1 }}
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        >
+    <SafeAreaView style={{ flex: 1 }}>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      >
+        <NavigationContainer>
           <AppNavigation />
-        </KeyboardAvoidingView>
-      </SafeAreaView>
-    </>
+        </NavigationContainer>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
-
-export default App;

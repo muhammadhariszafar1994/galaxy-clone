@@ -17,6 +17,7 @@ type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'Home'>;
 export type RootStackParamList = {
   Home: undefined;
   Meditation: undefined;
+  Travel: undefined;
 };
 
 const { width, height } = Dimensions.get('window'); // screen width and height
@@ -89,15 +90,18 @@ const HomeScreen = () => {
           />
           <Text style={styles.optionText}>Fly Through the Universe</Text>
         </TouchableOpacity>
+<TouchableOpacity
+  style={styles.optionButton}
+  onPress={() => navigation.getParent()?.navigate('Travel')}
+>
+  <Image
+    source={require('../../Assets/Icons/planet.png')}
+    style={styles.optionIcon}
+    resizeMode="contain"
+  />
+  <Text style={styles.optionText}>Travel to Exoplanets</Text>
+</TouchableOpacity>
 
-        <TouchableOpacity style={styles.optionButton}>
-          <Image
-            source={require('../../Assets/Icons/planet.png')}
-            style={styles.optionIcon}
-            resizeMode="contain"
-          />
-          <Text style={styles.optionText}>Travel to Exoplanets</Text>
-        </TouchableOpacity>
       </ScrollView>
     </ImageBackground>
   );

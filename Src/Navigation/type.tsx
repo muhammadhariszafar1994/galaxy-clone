@@ -1,12 +1,11 @@
 export type UserStackParamList = {
     Home: undefined;
     Profile: undefined;
-    meditation:undefined
-  };
+    meditation: undefined;
+};
 
-  export type RootStackParamList = {
+export type RootStackParamList = {
     LoginScreen: undefined;
-    Home: undefined; // <--- This is required
-  };
-
-  
+    Home: undefined; 
+    Travel: undefined;
+};
