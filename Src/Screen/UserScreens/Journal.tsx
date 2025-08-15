@@ -31,7 +31,7 @@ const Journal = () => {
     >
       <ScrollView contentContainerStyle={styles.container}>
         {/* Title */}
-        <Text style={styles.title}>
+         <Text style={styles.title}>
           What did the stars{'\n'}whisper to you today?
         </Text>
 
@@ -43,7 +43,7 @@ const Journal = () => {
         {/* Mood Buttons */}
         <View style={styles.moodsWrapper}>
           {/* First Row (4 buttons) */}
-          <View style={styles.row}>
+          <View style={styles.row }>
             {moods.slice(0, 4).map((mood, index) => (
               <TouchableOpacity key={index} style={styles.moodButton}>
                 <Image source={mood.icon} style={styles.moodIcon} />
